@@ -1,0 +1,63 @@
+<head>
+  <title>Leaderboard</title>
+</head>
+
+<body>
+{{> main}}
+</body>
+
+<template name="main">
+  {{#if story_id}}
+    {{#if event_id}}
+      {{> story}}
+      {{> event}}
+    {{else}}
+      {{> story}}
+    {{/if}}
+  {{else}}
+    {{> folder}}
+  {{/if}}
+</template>
+
+<template name="folder">
+  <div class="folder">
+    {{#each stories}}
+    <dl>
+      <dt>{{_id}}<dd><a class="choice" id="{{_id}}">{{name}}</a>
+    </dl>
+    {{/each}}
+  </div>
+</template>
+
+<template name="story">
+  <div class="story">
+    {{#with story}}
+    <dl>
+      <dt>{{name}}<dd>{{comment}}
+    </dl>
+    {{/with}}
+    <ul>
+    {{#each event_list}}
+    <li> <a class="choice" id="{{_id}}">{{name}}</a>
+    {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="event">
+  <div class="event">
+    event: [
+    {{#each messages}}
+      message: {{> message}}
+      <hr>
+    {{/each}}
+    ]
+  </div>
+</template>
+
+<template name="message">
+  <div class="message">
+    {{json}}
+  </div>
+</template>
+
