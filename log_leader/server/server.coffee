@@ -30,11 +30,12 @@ if Meteor.isServer
         vpl:     1
         type:    1
         card:    1
+
   Meteor.publish "story",  (story_id)-> db.Story.find(_id: story_id)
+  Meteor.publish "potofs", (story_id)-> db.Potof.find(story_id: story_id)
   Meteor.publish "events", (story_id)-> db.Event.find(story_id: story_id)
 
-  Meteor.publish "faces",            -> db.Face.find()
-  Meteor.publish "potofs", (story_id)-> db.Potof.find(story_id: story_id)
+  Meteor.publish "faces", -> db.Face.find()
 
-
+  console.log "start now."
 

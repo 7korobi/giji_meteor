@@ -4,18 +4,23 @@
 
 <body>
 {{> main}}
+{{> log}}
 </body>
 
 <template name="main">
+  {{ story_id }}  {{ event_id }}
   {{#if story_id}}
-    {{#if event_id}}
-      {{> story}}
-      {{> event}}
-    {{else}}
-      {{> story}}
-    {{/if}}
+    {{> story}}
   {{else}}
     {{> folder}}
+  {{/if}}
+</template>
+
+<template name="log">
+  {{#if story_id}}
+    {{#if event_id}}
+      {{> event}}
+    {{/if}}
   {{/if}}
 </template>
 
@@ -30,6 +35,7 @@
 </template>
 
 <template name="story">
+  <a class="back"> 戻る </a>
   <div class="story">
     {{#with story}}
     <dl>
@@ -37,7 +43,7 @@
     </dl>
     {{/with}}
     <ul>
-    {{#each event_list}}
+    {{#each events}}
     <li> <a class="choice" id="{{_id}}">{{name}}</a>
     {{/each}}
     </ul>
@@ -45,6 +51,7 @@
 </template>
 
 <template name="event">
+  <a class="back"> 戻る </a>
   <div class="event">
     event: [
     {{#each messages}}

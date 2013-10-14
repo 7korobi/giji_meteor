@@ -12,4 +12,10 @@ share.db = db =
   Event: new Meteor.Collection("events")
 
 console.log "share up"
+try 
+  console.log Meteor.status()
+  console.log Meteor.user()
+  console.log Meteor.userId()
+  console.log Meteor.loggingIn()
+catch e
 
