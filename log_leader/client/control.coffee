@@ -1,9 +1,14 @@
 db = share.db
-console.log("share load")
+console.log "share load"
 
 
 if Meteor.isClient
-  events = []
+  Meteor.call "folders", (e,folders)->
+    Session.set "folders", folders
+
+  Deps.autorun ->
+    return unless folder = Session.get "folder"
+    Meteor.subscribe "stories", folder
 
   Deps.autorun ->
     return unless story_id = Session.get "story_id"
@@ -12,19 +17,30 @@ if Meteor.isClient
     Meteor.subscribe "events", story_id
 
   Deps.autorun ->
-    console.log "  Deps.autorun event_id"
     return unless event_id = Session.get "event_id"
 
   Deps.autorun ->
     Meteor.subscribe "faces"
-    Meteor.subscribe "stories"
+
 
   # main
   session = 
+    folder:   -> Session.get "folder"
     story_id: -> Session.get "story_id"
     event_id: -> Session.get "event_id"
   Template.main.helpers session
   Template.log.helpers  session
+
+
+  # folders
+  Template.folders.helpers
+    folder:  -> Session.get "folder"
+    folders: -> Session.get "folders"
+
+  Template.folders.events
+    "touchend a.choice, mouseup a.choice, click a.choice": ->
+      Session.set "folder", "#{@}"
+
 
   # folder
   Template.folder.helpers
@@ -32,7 +48,12 @@ if Meteor.isClient
       db.Story.find(folder: "WOLF")
 
   Template.folder.events
-    "click a.choice": -> Session.set "story_id", @_id
+    "touchend a.choice, mouseup a.choice, click a.choice": ->
+      Session.set "story_id", @_id
+    "touchend a.back,   mouseup a.back,   click a.back":   ->
+      Session.set "folder",   null
+      Session.set "story_id", null
+      Session.set "event_id", null
 
   # story
   Template.story.helpers
@@ -47,8 +68,8 @@ if Meteor.isClient
       ), (o)-> o.turn
 
   Template.story.events
-    "click a.choice": -> Session.set "event_id", @_id
-    "click a.back":   ->
+    "touchend a.choice, mouseup a.choice, click a.choice": -> Session.set "event_id", @_id
+    "touchend a.back,   mouseup a.back,   click a.back":   ->
       Session.set "story_id", null
       Session.set "event_id", null
 
@@ -62,7 +83,7 @@ if Meteor.isClient
       event.messages if event
 
   Template.event.events
-    "click a.back": -> Session.set "event_id", null
+    "touchend a.back, mouseup a.back, click a.back": -> Session.set "event_id", null
 
   # message
   Template.message.helpers

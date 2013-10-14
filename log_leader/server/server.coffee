@@ -1,6 +1,6 @@
 # On server startup, create some players if the database is empty.
 db = share.db
-console.log("share load")
+console.log "share load"
 
 if Meteor.isServer
   readonly = ->
@@ -8,17 +8,24 @@ if Meteor.isServer
     remove: (id, obj)-> false
     update: (id, obj, fields, modifier)-> false
 
-  db.Auth.allow readonly
-
+  db.Auth.allow    readonly
   db.Request.allow readonly
 
-  db.Face.allow readonly
-
-  db.Potof.allow readonly
+  db.Face.allow  readonly
   db.Story.allow readonly
+  db.Potof.allow readonly
+  db.Event.allow readonly
 
-  Meteor.publish "stories", -> 
-    db.Story.find {},
+  Meteor.methods
+    folders: ->
+      folders = db.Story.find({}, 
+        fields:
+          folder: 1
+      ).fetch()
+      _.uniq _.map folders, (o)-> o.folder
+
+  Meteor.publish "stories", (folder)-> 
+    db.Story.find {folder: folder},
       fields:
         _type:   1
         folder:  1

@@ -3,16 +3,21 @@
 </head>
 
 <body>
+{{loginButtons}}
 {{> main}}
 {{> log}}
 </body>
 
 <template name="main">
-  {{ story_id }}  {{ event_id }}
-  {{#if story_id}}
-    {{> story}}
+  {{folder}} {{ story_id }}  {{ event_id }}
+  {{#if folder}}
+    {{#if story_id}}
+      {{> story}}
+    {{else}}
+      {{> folder}}
+    {{/if}}
   {{else}}
-    {{> folder}}
+    {{> folders}}
   {{/if}}
 </template>
 
@@ -24,7 +29,18 @@
   {{/if}}
 </template>
 
+<template name="folders">
+  <div class="folders">
+    <ul>
+      {{#each folders}}
+        <li><a class="choice" id="{{this}}">{{this}}</a>
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
 <template name="folder">
+  <a class="back"> 戻る </a>
   <div class="folder">
     {{#each stories}}
     <dl>
@@ -39,7 +55,7 @@
   <div class="story">
     {{#with story}}
     <dl>
-      <dt>{{name}}<dd>{{comment}}
+      <dt>{{name}}<dd>{{{comment}}}
     </dl>
     {{/with}}
     <ul>
@@ -64,7 +80,9 @@
 
 <template name="message">
   <div class="message">
-    {{json}}
+    <h3 id="{{logid}}">{{name}}</h3>
+    <p>{{{log}}}</p>
+    <p>{{date}}</p>
   </div>
 </template>
 
