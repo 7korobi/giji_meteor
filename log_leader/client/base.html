@@ -1,0 +1,37 @@
+<template name="top">
+  <div class="navbar navbar-fixed-top"><div class="navbar-inner">
+  <ul class="nav">
+  <li><a class="back">戻る</a>
+  <li><a>{{loginButtons}}</a>
+  </ul>
+  </div></div>
+  <hr>
+  <ul class="breadcrumb">
+    <li>{{   folder }}<span class="divider">/</span>
+    <li>{{ story_id }}<span class="divider">/</span>
+    <li>{{ event_id }}<span class="divider">/</span>
+  </ul>
+</template>
+
+<template name="left">
+{{#if story_id}}
+  {{> story_left}}
+{{/if}}
+</template>
+
+<template name="log">
+{{#if folder}}
+  {{#if story_id}}
+    {{#if event_id}}
+      {{> event}}
+    {{else}}
+      {{> story}}
+    {{/if}}
+  {{else}}
+    {{> folder}}
+  {{/if}}
+{{else}}
+  {{> folders}}
+{{/if}}
+</template>
+

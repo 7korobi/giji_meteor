@@ -1,88 +1,24 @@
 <head>
-  <title>Leaderboard</title>
+<title>人狼議事</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body>
-{{loginButtons}}
-{{> main}}
-{{> log}}
+{{> top}}
+
+<div class="row">
+<div class="span3" data-spy="affix">
+  <div class="left">
+  {{> left}}
+  </div>
+</div>
+
+<div style="margin-right: 0; margin-left: auto; width: 800px"> 
+  <div class="log">
+  {{> log}}
+  </div>
+</div>
+</div>
 </body>
 
-<template name="main">
-  {{folder}} {{ story_id }}  {{ event_id }}
-  {{#if folder}}
-    {{#if story_id}}
-      {{> story}}
-    {{else}}
-      {{> folder}}
-    {{/if}}
-  {{else}}
-    {{> folders}}
-  {{/if}}
-</template>
-
-<template name="log">
-  {{#if story_id}}
-    {{#if event_id}}
-      {{> event}}
-    {{/if}}
-  {{/if}}
-</template>
-
-<template name="folders">
-  <div class="folders">
-    <ul>
-      {{#each folders}}
-        <li><a class="choice" id="{{this}}">{{this}}</a>
-      {{/each}}
-    </ul>
-  </div>
-</template>
-
-<template name="folder">
-  <a class="back"> 戻る </a>
-  <div class="folder">
-    {{#each stories}}
-    <dl>
-      <dt>{{_id}}<dd><a class="choice" id="{{_id}}">{{name}}</a>
-    </dl>
-    {{/each}}
-  </div>
-</template>
-
-<template name="story">
-  <a class="back"> 戻る </a>
-  <div class="story">
-    {{#with story}}
-    <dl>
-      <dt>{{name}}<dd>{{{comment}}}
-    </dl>
-    {{/with}}
-    <ul>
-    {{#each events}}
-    <li> <a class="choice" id="{{_id}}">{{name}}</a>
-    {{/each}}
-    </ul>
-  </div>
-</template>
-
-<template name="event">
-  <a class="back"> 戻る </a>
-  <div class="event">
-    event: [
-    {{#each messages}}
-      message: {{> message}}
-      <hr>
-    {{/each}}
-    ]
-  </div>
-</template>
-
-<template name="message">
-  <div class="message">
-    <h3 id="{{logid}}">{{name}}</h3>
-    <p>{{{log}}}</p>
-    <p>{{date}}</p>
-  </div>
-</template>
 

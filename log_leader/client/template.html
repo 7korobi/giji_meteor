@@ -1,0 +1,76 @@
+<template name="folders">
+  <div class="folders">
+    <ul>
+      {{#each folders}}
+        <li><a class="choice" id="{{this}}">{{this}}</a>
+      {{/each}}
+    </ul>
+  </div>
+</template>
+
+<template name="folder">
+  <div class="folder">
+    <ul class="pager">
+      <li class="previous disabled"><a>&larr;</a>
+      <li class="next     disabled"><a>&rarr;</a>
+    </ul>
+    {{#each stories}}
+    <dl>
+      <dt>{{_id}}<dd><a class="choice" id="{{_id}}">{{name}}</a>
+    </dl>
+    {{/each}}
+    <ul class="pager">
+      <li class="previous disabled"><a>&larr;</a>
+      <li class="next     disabled"><a>&rarr;</a>
+    </ul>
+  </div>
+</template>
+
+<template name="story_left">
+  <ul>
+  {{#each events}}
+  <li class="choice" id="{{_id}}">{{name}}
+  {{/each}}
+  </ul>
+</template>
+
+<template name="story">
+  <div class="story">
+    {{#with story}}
+    <dl>
+      <dt>{{name}}<dd>{{{comment}}}
+    </dl>
+    {{/with}}
+  </div>
+</template>
+
+<template name="event">
+  <div class="event">
+    <ul class="pager">
+      <li class="previous disabled"><a>&larr;</a>
+      <li class="next     disabled"><a>&rarr;</a>
+    </ul>
+    {{#each messages}}
+      {{> message}}
+      <hr>
+    {{/each}}
+    <ul class="pager">
+      <li class="previous disabled"><a>&larr;</a>
+      <li class="next     disabled"><a>&rarr;</a>
+    </ul>
+  </div>
+</template>
+
+<template name="message">
+  <ul class="inline">
+  {{#if face_id }}
+  <li><img src="http://giji.load.jp/images/portrate/{{face_id}}.jpg"></li>
+  {{/if}}
+  <li>
+    <blockquote class="message">
+    <h3 id="{{logid}}">{{name}}</h3>
+    <p>{{{log}}}</p>
+    <p class="text-right muted">{{logid}} {{date}}</p>
+    </blockquote>
+  </li>
+</template>
